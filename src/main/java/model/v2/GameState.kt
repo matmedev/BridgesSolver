@@ -37,8 +37,12 @@ data class GameState(var board: Array<Array<Int>>, var bridges: MutableList<Brid
     }
 
     fun isBridgeValid(fromX: Int, fromY: Int, toX: Int, toY: Int): Boolean {
+        // Checking number of bridges between the two islands
         val q = Bridge(fromX, fromY, toX, toY)
         val count = bridges.count { it == q }
+
+        // TODO Check the isolation of the two islands
+        // TODO Check that bridges won't cross
         return count < 2
     }
 
