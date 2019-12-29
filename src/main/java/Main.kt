@@ -18,7 +18,7 @@ fun getBoardFromString(str: String, size: Int): Array<Array<Int>> {
 }
 
 fun main() {
-    val board = getBoardFromString(getStartStateFromFile("easy-game1.txt"), 4)
+    val board = getBoardFromString(getStartStateFromFile("game3.txt"), 7)
 
     val initialState = GameState(board)
 
@@ -35,23 +35,27 @@ fun main() {
             break
         }
 
-        val nextStates = HashSet<GameState>()
+        val nextStates = hashSetOf<GameState>()
         current.board.forEachIndexed { y, row ->
             row.forEachIndexed { x, node ->
                 if (node != 0) {
                     current.getNeighbours(x, y).forEach { pos ->
-                        val nextBridges = mutableListOf<Bridge>()
-                        nextBridges.addAll(current.bridges)
-                        val nextState = GameState(board = cloneBoard(current.board), bridges = nextBridges)
-                        nextState.board[y][x]--
-                        nextState.board[pos.y][pos.x]--
-                        nextState.bridges.add(Bridge(x, y, pos.x, pos.y))
-                        nextStates.add(nextState)
+                        if (current.isBridgeValid(x, y, pos.x, pos.y)) {
+                            val nextBridges = mutableListOf<Bridge>()
+                            nextBridges.addAll(current.bridges)
+                            val nextState = GameState(board = cloneBoard(current.board), bridges = nextBridges)
+                            nextState.board[y][x]--
+                            nextState.board[pos.y][pos.x]--
+                            nextState.bridges.add(Bridge(x, y, pos.x, pos.y))
+                            nextStates.add(nextState)
+                        }
                     }
                 }
             }
         }
+//        println("found ${nextStates.size}:")
         nextStates.forEach {
+//            println(it)
             stack.push(it)
         }
     }

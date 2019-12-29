@@ -9,27 +9,37 @@ data class GameState(var board: Array<Array<Int>>, var bridges: MutableList<Brid
         for(x1 in x-1 downTo 0) {
            if (board[y][x1] > 0) {
                neighbours.add(Position(x1, y))
+               break
            }
         }
         // right
         for(x1 in x+1 until board[0].size) {
             if (board[y][x1] > 0) {
                 neighbours.add(Position(x1, y))
+                break
             }
         }
         // top
         for (y1 in y-1 downTo 0) {
             if (board[y1][x] > 0) {
-                neighbours.add(Position(y1, x))
+                neighbours.add(Position(x, y1))
+                break
             }
         }
         // bottom
         for (y1 in y+1 until board.size) {
             if (board[y1][x] > 0) {
-                neighbours.add(Position(y1, x))
+                neighbours.add(Position(x, y1))
+                break
             }
         }
         return neighbours
+    }
+
+    fun isBridgeValid(fromX: Int, fromY: Int, toX: Int, toY: Int): Boolean {
+        val q = Bridge(fromX, fromY, toX, toY)
+        val count = bridges.count { it == q }
+        return count < 2
     }
 
     fun isTerminal(): Boolean {
