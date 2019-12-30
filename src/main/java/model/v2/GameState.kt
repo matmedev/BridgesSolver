@@ -1,6 +1,8 @@
 package model.v2
 
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 data class GameState(var board: Array<Array<Int>>, var bridges: MutableList<Bridge> = mutableListOf()) {
 
@@ -135,7 +137,29 @@ data class GameState(var board: Array<Array<Int>>, var bridges: MutableList<Brid
     }
 
     private fun hasCrossingBridges(provisionalBridges: MutableList<Bridge>): Boolean {
-        // TODO Check that bridges won't cross
+        val verticalBridges = provisionalBridges.filter { it.from.x == it.to.x}
+        val horizontalBridges = provisionalBridges.filter { it.from.y == it.to.y}
+
+        for(vBridge in verticalBridges) {
+            for(hBridge in horizontalBridges) {
+                if(areBridgesCrossing(vBridge, hBridge)) {
+                    return true
+                }
+            }
+        }
+
         return false
+    }
+
+    private fun areBridgesCrossing(vertical: Bridge, horizontal: Bridge): Boolean {
+        // TODO fix this
+        val x = vertical.from.x
+        val y1 = min(vertical.from.y, vertical.to.y)
+        val y2 = max(vertical.from.y, vertical.to.y)
+        val y = horizontal.from.y
+        val x1 = min(horizontal.from.y, horizontal.to.y)
+        val x2 = max(horizontal.from.y, horizontal.to.y)
+
+        return ((y1 < y) && (y < y2)) && ((x1 < x) && (x < x2))
     }
 }

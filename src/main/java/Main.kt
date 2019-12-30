@@ -20,7 +20,7 @@ fun getBoardFromString(str: String, size: Int): Array<Array<Int>> {
 }
 
 fun main() {
-    val board = getBoardFromString(getStartStateFromFile("isolation-test.txt"), 4)
+    val board = getBoardFromString(getStartStateFromFile("crossing-test.txt"), 4)
 
     val initialState = GameState(board)
 
