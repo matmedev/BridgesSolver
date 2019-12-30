@@ -3,7 +3,9 @@ import model.v2.GameState
 import java.util.*
 
 fun getStartStateFromFile(path: String): String {
-    return object {}.javaClass.getResource(path).readText().replace("\n", "")
+    return object {}.javaClass.getResource(path).readText()
+            .replace("\r", "")
+            .replace("\n", "")
 }
 
 fun getBoardFromString(str: String, size: Int): Array<Array<Int>> {
@@ -18,7 +20,7 @@ fun getBoardFromString(str: String, size: Int): Array<Array<Int>> {
 }
 
 fun main() {
-    val board = getBoardFromString(getStartStateFromFile("game3.txt"), 7)
+    val board = getBoardFromString(getStartStateFromFile("isolation-test.txt"), 4)
 
     val initialState = GameState(board)
 
