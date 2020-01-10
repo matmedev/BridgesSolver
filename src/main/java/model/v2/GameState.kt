@@ -152,13 +152,12 @@ data class GameState(var board: Array<Array<Int>>, var bridges: MutableList<Brid
     }
 
     private fun areBridgesCrossing(vertical: Bridge, horizontal: Bridge): Boolean {
-        // TODO fix this
         val x = vertical.from.x
         val y1 = min(vertical.from.y, vertical.to.y)
         val y2 = max(vertical.from.y, vertical.to.y)
         val y = horizontal.from.y
-        val x1 = min(horizontal.from.y, horizontal.to.y)
-        val x2 = max(horizontal.from.y, horizontal.to.y)
+        val x1 = min(horizontal.from.x, horizontal.to.x)
+        val x2 = max(horizontal.from.x, horizontal.to.x)
 
         return ((y1 < y) && (y < y2)) && ((x1 < x) && (x < x2))
     }
